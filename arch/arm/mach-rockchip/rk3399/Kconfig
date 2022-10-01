@@ -32,6 +32,9 @@ config TARGET_EVB_RK3399
 	  with full function and physical connectors support like Type-C ports,
 	  USB.0 host ports, LVDS, JTAG, MAC, SD card, HDMI, USB-to-serial...
 
+config TARGET_OPI4_RK3399
+	bool "Orange Pi 4/4 LTS board"
+
 config TARGET_PINEBOOK_PRO_RK3399
 	bool "Pinebook Pro"
 	help
@@ -170,6 +173,7 @@ source "board/google/gru/Kconfig"
 source "board/pine64/pinebook-pro-rk3399/Kconfig"
 source "board/pine64/rockpro64_rk3399/Kconfig"
 source "board/rockchip/evb_rk3399/Kconfig"
+source "board/rockchip/opi4_rk3399/Kconfig"
 source "board/theobroma-systems/puma_rk3399/Kconfig"
 source "board/vamrs/rock960_rk3399/Kconfig"
 
