@@ -22,19 +22,21 @@ ifeq ($(UBOOT_CROSS_COMPILE_PREFIX),)
 $(error UBOOT_CROSS_COMPILE_PREFIX is required)
 endif
 
+ifeq ($(UBOOT_EXTRA_BUILD_ENV),)
+UBOOT_EXTRA_BUILD_ENV :=
+endif
+
 UBOOT_SRC := $(call my-dir)
 UBOOT_OUT := $(TARGET_OUT_INTERMEDIATES)/UBOOT_OBJ
-
-UBOOT_IDBLOADER := $(UBOOT_OUT)/idbloader.img
-UBOOT_ITB_IMAGE := $(UBOOT_OUT)/u-boot.itb
+UBOOT_CONFIG := $(UBOOT_OUT)/.config
+UBOOT_IMAGE := $(UBOOT_OUT)/u-boot.img
 
 UBOOT_MAKE_CMD := \
 	PATH=/usr/bin:$$PATH \
 	ARCH=$(TARGET_ARCH) \
 	CROSS_COMPILE=$(ANDROID_TOP)/$(UBOOT_CROSS_COMPILE_PREFIX) \
+	$(UBOOT_EXTRA_BUILD_ENV) \
 	$(MAKE) -C $(UBOOT_SRC) O=$(ANDROID_TOP)/$(UBOOT_OUT)
-
-UBOOT_CONFIG := $(UBOOT_OUT)/.config
 
 $(UBOOT_OUT):
 	$(hide) mkdir -p $(UBOOT_OUT)
@@ -43,13 +45,15 @@ $(UBOOT_CONFIG): $(UBOOT_SRC)/Makefile $(UBOOT_OUT)
 	$(hide) echo "Configuring U-Boot..."
 	$(UBOOT_MAKE_CMD) $(UBOOT_DEFCONFIG)
 
-$(UBOOT_ITB_IMAGE): $(UBOOT_CONFIG)
+$(UBOOT_IMAGE): $(UBOOT_CONFIG)
 	$(hide) echo "Building U-Boot..."
 	$(UBOOT_MAKE_CMD)
 
 $(UBOOT_IDBLOADER): $(UBOOT_ITB_IMAGE)
 
 .PHONY: uboot
-uboot: $(UBOOT_ITB_IMAGE) $(UBOOT_IDBLOADER)
-	$(hide) echo "Copying U-Boot images..."
-	cp $^ $(TARGET_OUT)
+uboot: $(UBOOT_IMAGE)
+
+.PHONY: clean-uboot
+clean-uboot:
+	rm -rf $(UBOOT_OUT)
