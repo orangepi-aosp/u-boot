@@ -59,12 +59,14 @@ int sysreset_walk(enum sysreset_t type)
 	int ret = -ENOSYS;
 
 	while (ret != -EINPROGRESS && type < SYSRESET_COUNT) {
-		for (uclass_first_device(UCLASS_SYSRESET, &dev);
+		for (int ret2 = uclass_first_device_check(UCLASS_SYSRESET, &dev);
 		     dev;
-		     uclass_next_device(&dev)) {
-			ret = sysreset_request(dev, type);
-			if (ret == -EINPROGRESS)
-				break;
+		     ret2 = uclass_next_device_check(&dev)) {
+            if (ret2 == 0) {
+                ret = sysreset_request(dev, type);
+                if (ret == -EINPROGRESS)
+                    break;
+			}
 		}
 		type++;
 	}
