@@ -6,6 +6,11 @@
 #ifndef __EVB_RK3399_H
 #define __EVB_RK3399_H
 
+#if 1
+#define DEBUG
+#define LOG_DEBUG
+#endif
+
 #define ROCKCHIP_DEVICE_SETTINGS \
 		"stdin=serial,usbkbd\0" \
 		"stdout=serial,vidconsole\0" \
