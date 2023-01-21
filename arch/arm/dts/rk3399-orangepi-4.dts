@@ -142,6 +142,27 @@
 	status = "okay";
 };
 
+&usbdrd_dwc3_0 {
+	status = "okay";
+	dr_mode = "otg";
+};
+
+&u2phy0 {
+	status = "okay";
+
+	u2phy0_otg {
+		status = "okay";
+	};
+};
+
+&tcphy0 {
+	status = "okay";
+
+	tcphy0_usb3 {
+		status = "okay";
+	};
+};
+
 &usb_host1_ehci {
 	status = "okay";
 };
@@ -152,10 +173,6 @@
 
 &usbdrd3_1 {
 	vbus-supply = <&vcc5v0_typec1>;
-	status = "okay";
-};
-
-&tcphy0 {
 	status = "okay";
 };
 
