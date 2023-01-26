@@ -6,7 +6,7 @@
 #ifndef __EVB_RK3399_H
 #define __EVB_RK3399_H
 
-#if 1
+#if 0
 #define DEBUG
 #define LOG_DEBUG
 #endif

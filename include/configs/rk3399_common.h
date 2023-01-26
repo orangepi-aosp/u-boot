@@ -47,12 +47,20 @@
 #define ROCKCHIP_DEVICE_SETTINGS
 #endif
 
+#ifdef CONFIG_ANDROID_BOOT
+#include <config_android_bootcmd.h>
+#else // Not CONFIG_ANDROID_BOOT
+#include <config_distro_bootcmd.h>
+#include <environment/distro/sf.h>
+
 #define CFG_EXTRA_ENV_SETTINGS \
 	ENV_MEM_LAYOUT_SETTINGS \
 	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"partitions=" PARTS_DEFAULT \
 	ROCKCHIP_DEVICE_SETTINGS \
 	"boot_targets=" BOOT_TARGETS "\0"
+
+#endif // CONFIG_ANDROID_BOOT
 
 #endif
 
