@@ -1,5 +1,9 @@
 if TARGET_OPI4_RK3399
 
+config ANDROID_BOOT
+	bool "Support Android 13 boot"
+	default y
+
 config SYS_BOARD
 	default "opi4_rk3399"
 

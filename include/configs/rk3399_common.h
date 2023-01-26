@@ -56,6 +56,9 @@
 #define ROCKCHIP_DEVICE_SETTINGS
 #endif
 
+#ifdef CONFIG_ANDROID_BOOT
+#include <config_android_bootcmd.h>
+#else // Not CONFIG_ANDROID_BOOT
 #include <config_distro_bootcmd.h>
 #include <environment/distro/sf.h>
 #define CONFIG_EXTRA_ENV_SETTINGS \
@@ -68,6 +71,8 @@
 	"altbootcmd=" \
 		"setenv boot_syslinux_conf extlinux/extlinux-rollback.conf;" \
 		"run distro_bootcmd\0"
+
+#endif // CONFIG_ANDROID_BOOT
 
 #endif
 
