@@ -426,7 +426,7 @@ static int select_ramdisk(bootm_headers_t *images, const char *select, u8 arch,
 #endif
 #ifdef CONFIG_ANDROID_BOOT_IMAGE
 		case IMAGE_FORMAT_ANDROID:
-			android_image_get_ramdisk((void *)images->os.start,
+			android_image_get_ramdisk((void *)rd_addr,
 						  rd_datap, rd_lenp);
 			break;
 #endif
