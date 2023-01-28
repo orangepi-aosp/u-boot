@@ -5,7 +5,9 @@
 
 #define BOOTENV \
     ANDROID_PART_INFO(boot, 4) \
-    ANDROID_PART_INFO(dtb, 5) \
+    ANDROID_PART_INFO(init_boot, 5) \
+    "bootimg_addr=0x0A000000\0" \
+    "initbootimg_addr=0x0C000000\0" \
     "mmc_devnums=" MMC_DEVNUMS "\0" \
     "bootcmd=" \
         "for devnum in ${mmc_devnums}; do " \
@@ -13,12 +15,16 @@
             "run mmc_android_boot; " \
         "done\0" \
     "mmc_android_boot=" \
-        "env set part_loadaddr ${kernel_addr_r}; " \
+        "env set part_loadaddr ${bootimg_addr}; " \
         "env set part_num ${part_boot_num}; " \
         "run mmc_load_part; " \
+        "abootimg addr ${bootimg_addr}; " \
         "abootimg get dtb --index=0 dtb_start dtb_size; " \
         "cp.b ${dtb_start} ${fdt_addr_r} ${dtb_size}; " \
-        "bootm ${kernel_addr_r} ${kernel_addr_r} ${fdt_addr_r}; " \
+        "env set part_loadaddr ${initbootimg_addr}; " \
+        "env set part_num ${part_init_boot_num}; " \
+        "run mmc_load_part; " \
+        "bootm ${bootimg_addr} ${initbootimg_addr} ${fdt_addr_r}; " \
         "\0" \
     "mmc_load_part=" \
         "part start mmc ${devnum} ${part_num} part_start; " \
