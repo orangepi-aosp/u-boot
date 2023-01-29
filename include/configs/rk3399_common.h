@@ -57,7 +57,7 @@
 #endif
 
 #ifdef CONFIG_ANDROID_BOOT
-#include <config_android_bootcmd.h>
+#include <rk3399_android.h>
 #else // Not CONFIG_ANDROID_BOOT
 #include <config_distro_bootcmd.h>
 #include <environment/distro/sf.h>
