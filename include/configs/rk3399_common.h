@@ -13,6 +13,9 @@
 #define CFG_SYS_SDRAM_BASE		0
 #define SDRAM_MAX_SIZE			0xf8000000
 
+#define CFG_SYS_INIT_RAM_ADDR        CFG_IRAM_BASE
+#define CFG_SYS_INIT_RAM_SIZE        0x2000
+
 #define ROCKPI_4B_IDBLOADER_IMAGE_GUID \
 	EFI_GUID(0x02f4d760, 0xcfd5, 0x43bd, 0x8e, 0x2d, \
 		 0xa4, 0x2a, 0xcb, 0x33, 0xc6, 0x60)

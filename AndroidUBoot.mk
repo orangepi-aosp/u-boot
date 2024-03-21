@@ -47,7 +47,7 @@ $(UBOOT_CONFIG): $(UBOOT_SRC)/Makefile $(UBOOT_OUT)
 
 $(UBOOT_IMAGE): $(UBOOT_CONFIG)
 	$(hide) echo "Building U-Boot..."
-	$(UBOOT_MAKE_CMD)
+	$(UBOOT_MAKE_CMD) > $(UBOOT_OUT)/uboot_build.log 2<&1
 
 $(UBOOT_IDBLOADER): $(UBOOT_ITB_IMAGE)
 
