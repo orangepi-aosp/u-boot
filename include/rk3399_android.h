@@ -6,6 +6,8 @@
 #define BOOTENV \
     ANDROID_PART_INFO(boot, 4) \
     ANDROID_PART_INFO(init_boot, 5) \
+    ANDROID_PART_INFO(vendor_boot, 6) \
+    ANDROID_PART_INFO(misc, 12) \
     "bootimg_addr=0x0A000000\0" \
     "initbootimg_addr=0x0C000000\0" \
     "mmc_devnums=" MMC_DEVNUMS "\0" \
@@ -38,23 +40,33 @@
 #define ANDROID_PART_INFO(name, number) \
     "part_" #name "_num=" #number "\0"
 
-#define ANDROID_PARTS \
-	"uuid_disk=${uuid_gpt_disk};" \
-	"name=loader1,start=32K,size=4000K,uuid=${uuid_gpt_loader1};" \
+#define BOOTLOADER_PARTS \
+    "name=loader1,start=32K,size=4000K,uuid=${uuid_gpt_loader1};" \
 	"name=loader2,start=8M,size=4M,uuid=${uuid_gpt_loader2};" \
-	"name=trust,size=4M,uuid=${uuid_gpt_atf};" \
+	"name=trust,size=4M,uuid=${uuid_gpt_atf};"
+
+#define ANDROID_PARTS \
 	"name=boot,size=16M,bootable,uuid=${uuid_gpt_boot};" \
-    "name=init_boot,size=4M,uuid=${uuid_gpt_init_boot};" \
+    "name=init_boot,size=8M,uuid=${uuid_gpt_init_boot};" \
+    "name=vendor_boot,size=32M,uuid=${uuid_gpt_vendor_boot};" \
     "name=system,size=1536M,uuid=${uuid_gpt_system};" \
     "name=system_ext,size=64M,uuid=${uuid_gpt_system_ext};" \
     "name=vendor,size=256M,uuid=${uuid_gpt_vendor};" \
     "name=vendor_dlkm,size=32M,uuid=${uuid_gpt_vendor_dlkm};" \
-	"name=userdata,size=-,uuid=${uuid_gpt_userdata}\0"
+    "name=cache,size=64M,uuid=${uuid_gpt_cache};" \
+    "name=misc,size=8K,uuid=${uuid_gpt_misc};" \
+	"name=userdata,size=-,uuid=${uuid_gpt_userdata}"
+
+#define PARTITION_TABLE \
+    "uuid_disk=${uuid_gpt_disk};" \
+    BOOTLOADER_PARTS \
+    ANDROID_PARTS \
+    "\0"
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
     ENV_MEM_LAYOUT_SETTINGS \
     BOOTENV \
-    "partitions=" ANDROID_PARTS \
+    "partitions=" PARTITION_TABLE \
 	"altbootcmd=fastboot usb 0\0"
 
 #endif // _CONFIG_ANDROID_BOOTCMD_H
